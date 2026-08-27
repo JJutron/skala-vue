@@ -1,0 +1,21 @@
+Per-region landmark plates (Wikimedia Commons), cropped 960×540.
+
+- gangwon: Seoraksan (File:Seoraksan-43.jpg)
+- gyeonggi: Suwon Hwaseong Fortress
+- seoul: Gyeonghoeru, Gyeongbokgung Palace
+- incheon: Incheon Bridge
+- chungbuk: Dodamsambong, Danyang
+- chungnam: Gongju view / Gongsanseong area
+- sejong: Sejong Lake Park
+- daejeon: Expo Science Park gate & tower
+- jeonbuk: Jeonju Hanok Village
+- jeonnam: Suncheon Bay reed fields
+- gwangju: Mudeungsan
+- gyeongbuk: Bulguksa, Gyeongju
+- gyeongnam: Tongyeong Cable Car
+- daegu: Palgongsan
+- ulsan: Ganjeolgot
+- busan: Gwangan Bridge
+- jeju: Seongsan Ilchulbong
+
+Used by WeatherScene via src/data/regionScenes.js

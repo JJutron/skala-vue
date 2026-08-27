@@ -121,10 +121,6 @@ watch(selectedRegionId, async (id) => {
         <aside v-if="selectedRegion" ref="panel" class="panel" aria-live="polite">
           <div class="panel-top">
             <button class="back" type="button" @click="store.clearSelection">뒤로</button>
-            <div class="panel-controls">
-              <UnitToggle tone="paper" />
-              <MapLayerToggle tone="paper" />
-            </div>
           </div>
           <h2 class="city">{{ selectedRegion.fullName || selectedRegion.name }}</h2>
           <p v-if="selectedWeather" class="readout">
@@ -195,18 +191,14 @@ watch(selectedRegionId, async (id) => {
   max-width: 40rem;
 }
 
-.intro-controls,
-.panel-controls {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  align-items: stretch;
-}
-
 .intro-controls {
   position: absolute;
   top: 12px;
   right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: stretch;
 }
 
 .intro .page-title {
@@ -308,8 +300,6 @@ watch(selectedRegionId, async (id) => {
 .panel-top {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
   margin-bottom: 8px;
 }
 

@@ -1,125 +1,163 @@
 # skala-vue
 
 SKALA Full-Stack Engineering — Vue.js 실습 저장소.
-Code Challenge(지시자, Composition API, 컴포넌트, Element Plus)와 Hands on 날씨 Mockup / Composition / Component / Router / Pinia / Axios까지 넣었습니다.
-날씨 데이터는 서울, 수원, 부산에 안성을 더한 4개 도시입니다.
+
+메인 앱 **기상도 (Weather Atlas)** 는 대한민국 17개 시·도 지도에서 지역별 날씨·대기질을 확인합니다.
+같은 저장소에 Hands-on 날씨 대시보드 실습과 Code Challenge(지시자, Composition API, 컴포넌트, Element Plus)가 들어 있습니다.
+
+Hands-on mock 데이터는 서울, 수원, 부산, 안성 4개 도시입니다.
 
 ## 실행 방법
 
-폴더마다 Vite 프로젝트가 따로 있습니다.
+메인 앱은 `weather-atlas/` 에서 실행합니다.
 
 ```bash
+cd weather-atlas
+cp .env.example .env   # VITE_OPENWEATHER_KEY 입력
 npm install
 npm run dev
 ```
 
-- Node 22.18+ / 24.12+ (`package.json` engines 기준)
+- Node 22.18+ / 24.12+ (`weather-atlas/package.json` engines 기준)
 - 빌드: `npm run build` · 미리보기: `npm run preview`
+- 의존성: Vue 3, Vue Router, Pinia, Axios, Anime.js, Element Plus
 
-Vue Router, Pinia, Axios가 들어 있습니다. `/` 대시보드, `/weather/:cityId` 상세, `/about` 소개, `/stats` 통계, 없는 주소는 404입니다.
-실시간 날씨는 `.env`의 `VITE_OPENWEATHER_KEY`가 있어야 하고, 예시는 `day3/.env.example`입니다.
+실시간 날씨·대기질은 `.env`의 `VITE_OPENWEATHER_KEY`가 필요합니다.
+예시는 `weather-atlas/.env.example`입니다. 키가 없거나 요청이 실패하면 샘플 데이터로 지도가 열립니다.
+
+Hands-on / Code Challenge 원본은 각각 `handsOn/`, `codeChallenge/` 에서도 단독 실행할 수 있습니다.
+
+```bash
+cd handsOn        # 또는 codeChallenge
+npm install
+npm run dev
+```
+
+## 라우트
+
+| 경로 | 설명 |
+| ---- | ---- |
+| `/` | 기상도 홈 — 한반도 지도, 지역 상세 |
+| `/archive` | 실습 아카이브 목록 |
+| `/archive/live` | Hands-on 라이브 실습 (`#hw-01` …) |
+| `/archive/live/weather/:cityId` | Hands-on 도시 상세 |
+| `/archive/live/about` | Hands-on 소개 |
+| `/archive/live/stats` | Hands-on 통계 |
+| `/challenge` | Code Challenge |
+
+헤더: **기상도**(로고) · **지도** · **실습 아카이브** · **코드 챌린지**
+
+- 첫 방문 / **기상도** 로고 → 「기상도」 붓글씨 히어로 후 지도
+- **지도** 메뉴 → 히어로 없이 바로 지도
 
 ## 폴더 구조
 
 ```
 skala-vue/
-│
-├── weather-atlas/                    # 메인 Weather Atlas 프로젝트
-│   │
+├── weather-atlas/                 # 메인 기상도 (Vite)
+│   ├── public/
+│   │   ├── scenes/                # 모티프 장면 + regions/ 지역별 랜드마크
+│   │   └── archive/               # 아카이브 미리보기 이미지
 │   ├── src/
-│   │   ├── components/              # 지도, 날씨, 레이아웃, 실습 UI 컴포넌트
-│   │   ├── composables/             # Composition API 기반 화면 로직
-│   │   ├── data/                    # 지역 정보, 지도 경로, 아카이브 데이터
-│   │   ├── services/                # OpenWeather API 및 데이터 변환 로직
-│   │   ├── stores/                  # Pinia 날씨 상태 관리
-│   │   ├── views/                   # 홈, 챌린지, 아카이브 화면
-│   │   └── router/                  # Vue Router 설정
-│   │
-│   └── .env.example                  # 환경 변수 예시
-│
-├── handsOn/                          # 단계별 날씨 대시보드 실습 원본
-│
-└── codeChallenge/                    # Vue 기능별 Code Challenge 원본
+│   │   ├── components/
+│   │   │   ├── intro/             # BrushTitleIntro 붓글씨 히어로
+│   │   │   ├── map/               # KoreaMap, MapRegion, RegionTooltip
+│   │   │   ├── weather/           # Scene, DNA, Particles, Unit/MapLayer 토글
+│   │   │   ├── layout/            # AppHeader, BrandMark
+│   │   │   └── archive/ · hands-on/
+│   │   ├── composables/           # useWeatherAnimation, brushIntroGate
+│   │   ├── data/                  # regions, regionScenes, archiveItems
+│   │   ├── services/              # weatherApi, weatherMapper, weatherDna
+│   │   ├── stores/                # Pinia weatherStore
+│   │   ├── views/                 # Home, archive, challenge
+│   │   ├── legacy/                # Hands-on · Challenge 원본 이식본
+│   │   └── router/
+│   ├── vercel.json                # SPA rewrite
+│   └── .env.example
+├── vercel.json                    # GitHub→Vercel: weather-atlas 빌드
+├── design-system/weather-atlas/   # MASTER 디자인 토큰·시그니처
+├── handsOn/                       # Hands-on 원본 프로젝트
+└── codeChallenge/                 # Code Challenge 원본 프로젝트
 ```
 
-데이터 처리 방식
-
-Weather Atlas는 OpenWeather API를 통해 현재 날씨와 대기질 데이터를 가져옵니다.
-
-API 응답 데이터는 서비스에서 사용하는 형태로 변환한 후 Pinia Store를 통해 관리하며, 화면에서는 지역 선택에 따라 필요한 정보를 표시합니다.
-
-데이터 흐름
-```
-사용자
-  ↓
-대한민국 지도에서 지역 선택
-  ↓
-Weather Store
-  ↓
-OpenWeather API
-  ↓
-날씨 / 대기질 데이터 변환
-  ↓
-Weather Components
-  ↓
-화면에 지역별 정보 표시
-```
-
-API 예외 처리
-
-```
-OpenWeather API 요청
-       │
-       ├── 성공 → 실시간 데이터 사용
-       │
-       └── 실패 / API Key 없음
-                    ↓
-              샘플 데이터 사용
-```
-
-API 키가 없거나 네트워크 요청에 실패하더라도 프로젝트 자체는 정상적으로 실행되도록 구성했습니다.
-
-프로젝트 구성
-
-전체 프로젝트는 크게 세 영역으로 구성됩니다.
-
-1. Weather Atlas
-
-대한민국 지도를 중심으로 지역별 날씨와 대기질을 확인하는 메인 서비스입니다.
-
-2. Hands-on Archive
-
-Vue를 학습하면서 단계별로 구현한 날씨 대시보드를 아카이브 형태로 제공합니다.
-
-3. Code Challenge
-
-Vue의 핵심 기능을 직접 구현하며 학습 내용을 확인할 수 있도록 구성했습니다.
+## 프로젝트 구성
 
 ```
 SKALA Vue
 │
-├── Weather Atlas
-│   ├── Interactive Map
-│   ├── Weather Information
-│   └── Air Quality
+├── Weather Atlas (기상도)
+│   ├── 붓글씨 히어로 + 해안선 brush-draw
+│   ├── 17개 시·도 인터랙티브 지도
+│   ├── 날씨 / 대기질(AQI·PM) 레이어
+│   ├── ℃ / ℉ · 지역별 랜드마크 장면
+│   └── Weather DNA · 파티클
 │
-├── Hands-on Archive
-│   ├── Mockup
-│   ├── Composition API
-│   ├── Component
-│   ├── Pinia
-│   ├── Axios
+├── Hands-on Archive  (/archive, /archive/live)
+│   ├── Mockup · Composition · Component
+│   ├── Router · Pinia · Axios
 │   └── Element Plus
 │
-└── Code Challenge
-    └── Vue Core Features
+└── Code Challenge  (/challenge)
+    └── 지시자 · 슬롯 · Pinia · Axios · Element Plus
 ```
 
+## Weather Atlas 기능
+
+### 지도·연출
+- Anime.js로 한반도 해안선 `strokeDashoffset` 드로잉 후 먹 채움
+- 지역 선택 시 지도가 살짝 확대되며 오른쪽에 상세 패널
+- 상세 패널: 기온, 하늘 상태, 지역 랜드마크 사진, DNA 문장, 습도·바람·체감·대기질·PM2.5·PM10
+
+### 토글 (홈 상단)
+- **℃ / ℉** — 기온 단위
+- **날씨 / 대기** — 지도 fill을 수묵 단색 ↔ OpenWeather AQI(1–5) 색상으로 전환
+
+### API
+- Current Weather: `GET /data/2.5/weather`
+- Air Pollution: `GET /data/2.5/air_pollution`
+- 좌표는 `src/data/regions.js`의 17개 지역 `lat` / `lon`
+- 변환: `services/weatherMapper.js` → Pinia `weatherStore`
+
+```
+사용자 → 지도 지역 선택
+       → weatherStore.loadAll / 선택 상태
+       → OpenWeather (weather + air)
+       → normalize → WeatherScene / DNA / 메트릭
+```
+
+```
+API 요청
+ ├── 성공 → 실시간 관측·대기질
+ └── 실패 / 키 없음 → 샘플 데이터로 계속 표시
+```
+
+### 지역별 랜드마크
+`src/data/regionScenes.js` + `public/scenes/regions/{id}.jpg`  
+(예: 서울 경회루, 강원 설악산, 제주 성산일출봉, 부산 해운대 등)
+
+### 디자인
+수묵 산수 야경 — Sumi / Hanji / Celadon / Cinnabar / Moon  
+Display: Song Myung · UI: Noto Sans KR  
+자세한 토큰: `design-system/weather-atlas/MASTER.md`
+
+## 배포 (Vercel)
+
+- 루트 `vercel.json`이 `weather-atlas`를 install / build / `dist`로 지정
+- Environment Variable: `VITE_OPENWEATHER_KEY` (빌드 시 주입 → Redeploy 필요)
+- SPA를 위해 `/` → `index.html` rewrite
+
+---
+
 ## 과제별 정리
+
 ## Hands-on 과제
 
 Hands-on은 Vue의 주요 기능을 하나씩 실제 날씨 대시보드에 적용하면서,
 기본 문법부터 컴포넌트, Router, Pinia, Axios, UI Library까지 단계적으로 확장하는 실습입니다.
+
+앱에서는 **실습 아카이브**(`/archive`)와 라이브 화면(`/archive/live`)으로 열 수 있고,
+원본 프로젝트는 `handsOn/` 폴더에 있습니다.
+아래 번호는 학습 순서 기준입니다. (아카이브 UI의 카드 번호와 일부 순서가 다를 수 있습니다.)
 
 
 ### 01 날씨 Mockup 
