@@ -152,13 +152,14 @@ slot으로 넣은 SearchBar, WeatherCard는 카드 안에 보이지만 부모 �
 | 튜닝 | 과제 5 칸을 과제 4 밑에 둠. 키는 `.env`의 `VITE_OPENWEATHER_KEY`. 다른 API는 Wikipedia REST 요약. 예보는 앞 8칸(24시간). 좌표·위키 제목은 `cityMeta.js` |
 
 
-### 06 Element-plus— `day3/`
+### 07 Element-plus— `day3/`
 
 | 구분 | 내용 |
 | ---- | ---- |
 | 요구사항 | `element-plus` 설치 후 `main.js`에 전역 등록. 실습1 회원가입 Form. 실습2 수량·별점. 실습3 삭제 Confirm과 Progress |
 | 튜닝 | 새 `.vue`는 안 만들고 `App.vue` 맨 아래 `.column`에 붙임. day1에 라우터가 없어 PDF `main.js`의 router는 빼 둠 |
-가입 칸은 이메일과 약관을 같이 보고, `@`가 없거나 스위치가 꺼져 있으면 메시지를 띄운 뒤 끝냅니다. 
-헤더는 회원가입, 함수명은 `handleResgister`입니다.
-수량 칸은 10개를 넘기지 못하게 두고 별점 옆에 `{value} 점`을 붙였습니다. 
-프로그레스 칸은 지우기 전에 Confirm 토글을 띄우고, 동기화를 누르면 진행률이 20%씩 올라갑니다.
+
+- 가입 칸은 이메일과 약관을 같이 보고, `@`가 없거나 스위치가 꺼져 있으면 메시지를 띄운 뒤 끝냅니다. 
+- 헤더는 회원가입, 함수명은 `handleResgister`입니다.
+- 수량 칸은 10개를 넘기지 못하게 두고 별점 옆에 `{value} 점`을 붙였습니다. 
+- 프로그레스 칸은 지우기 전에 Confirm 토글을 띄우고, 동기화를 누르면 진행률이 20%씩 올라갑니다.
