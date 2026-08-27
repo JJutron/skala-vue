@@ -13,6 +13,54 @@ import WeatherCard4 from '../components/exercise/WeatherCard4.vue'
 const router = useRouter()
 const weatherList = ref(weatherData)
 
+const searchQuery1 = ref('')
+const selectedCityInfo1 = ref({
+  message: '카드를 클릭하거나 검색해 보세요.',
+})
+
+const selectCity1 = (cityName) => {
+  selectedCityInfo1.value = {
+    message: `${cityName}이 선택되었습니다.`,
+  }
+}
+
+const showDetail1 = (city) => {
+  window.alert(`${city.name}의 현재 날씨는 [${city.status}] 상태입니다.`)
+}
+
+const searchQuery2 = ref('')
+const selectedCityInfo2 = ref({
+  message: '카드를 클릭하거나 검색해 보세요.',
+})
+
+const filteredWeatherList2 = computed(() => {
+  return weatherList.value.filter((city) =>
+    city.name.includes(searchQuery2.value),
+  )
+})
+
+const resultCount2 = computed(() => filteredWeatherList2.value.length)
+
+const selectCity2 = (cityName) => {
+  selectedCityInfo2.value = {
+    message: `${cityName}이 선택되었습니다.`,
+  }
+}
+
+const showDetail2 = (city) => {
+  window.alert(`${city.name}의 현재 날씨는 [${city.status}] 상태입니다.`)
+}
+
+watch(selectedCityInfo2, (newVal) => {
+  console.log(
+    `[watch 감지] 상태 바 문구가 업데이트되었습니다 -> '${newVal.message}'`,
+  )
+})
+
+watchEffect(() => {
+  console.log(`[watchEffect 자동 호출] 현재 검색어: '${searchQuery2.value}'`)
+})
+
 const searchQuery = ref('')
 
 const selectedCityInfo = ref({
@@ -122,7 +170,93 @@ onMounted(() => {
 
 <template>
   <div class="home">
-    <h2>과제 3: 날씨 (컴포넌트)</h2>
+    <h2>과제 1: 날씨 (Mockup)</h2>
+
+    <section class="block">
+      <h2>🔍 도시 검색</h2>
+      <input
+        class="search-input"
+        :value="searchQuery1"
+        @input="searchQuery1 = $event.target.value"
+        placeholder="검색할 도시 이름 입력"
+      />
+      <p>검색 중인 도시: {{ searchQuery1 }}</p>
+    </section>
+
+    <section class="block">
+      <h2>📋 지역별 날씨 현황</h2>
+      <div
+        v-for="city in weatherList.filter((c) => c.name.includes(searchQuery1))"
+        :key="city.id"
+        class="inline-card"
+        @click="selectCity1(city.name)"
+      >
+        <div>
+          <h3>{{ city.name }} ({{ city.status }})</h3>
+          <p>현재 기온: {{ city.temp }}°C</p>
+          <span v-if="city.temp >= 25" class="hot">🔥 더움 (25도 이상)</span>
+          <span v-else class="fresh">❄️ 신선함 (25도 미만)</span>
+        </div>
+        <button @click.stop="showDetail1(city)">상세보기</button>
+      </div>
+    </section>
+
+    <div class="status">{{ selectedCityInfo1.message }}</div>
+
+    <h2 class="homework-split">과제 2: 날씨 (컴포지션)</h2>
+
+    <section class="block">
+      <h2>🔍 도시 검색</h2>
+      <input
+        class="search-input"
+        :value="searchQuery2"
+        @input="searchQuery2 = $event.target.value"
+        placeholder="검색할 도시 이름 입력"
+      />
+      <p>검색 중인 도시: {{ searchQuery2 }}</p>
+      <p>검색 결과 {{ resultCount2 }}건</p>
+    </section>
+
+    <section class="block">
+      <h2>📋 지역별 날씨 현황</h2>
+      <template v-if="!searchQuery2">
+        <div
+          v-for="city in weatherList"
+          :key="city.id"
+          class="inline-card"
+          @click="selectCity2(city.name)"
+        >
+          <div>
+            <h3>{{ city.name }} ({{ city.status }})</h3>
+            <p>현재 기온: {{ city.temp }}°C</p>
+            <span v-if="city.temp >= 25" class="hot">🔥 더움 (25도 이상)</span>
+            <span v-else class="fresh">❄️ 신선함 (25도 미만)</span>
+          </div>
+          <button @click.stop="showDetail2(city)">상세보기</button>
+        </div>
+      </template>
+      <template v-else-if="filteredWeatherList2.length">
+        <div
+          v-for="city in filteredWeatherList2"
+          :key="city.id"
+          class="inline-card"
+          @click="selectCity2(city.name)"
+        >
+          <div>
+            <h3>{{ city.name }} ({{ city.status }})</h3>
+            <p>현재 기온: {{ city.temp }}°C</p>
+            <span v-if="city.temp >= 25" class="hot">🔥 더움 (25도 이상)</span>
+            <span v-else class="fresh">❄️ 신선함 (25도 미만)</span>
+          </div>
+          <button @click.stop="showDetail2(city)">상세보기</button>
+        </div>
+      </template>
+      <p v-else>일치하는 도시가 없습니다.</p>
+    </section>
+
+    <div class="status">{{ selectedCityInfo2.message }}</div>
+
+    <h2 class="homework-split">과제 3: 날씨 (컴포넌트)</h2>
 
     <BaseDashboardCard>
       <SearchBar :query="searchQuery" @update-query="searchQuery = $event" />
@@ -209,9 +343,49 @@ onMounted(() => {
   font-size: 16px;
 }
 
+.homework-split,
 .homework-4 {
   margin-top: 8px;
   border-top: 1px solid #eee;
+}
+
+.block {
+  padding: 20px 24px 8px;
+}
+
+.block > h2 {
+  margin: 0 0 12px;
+  font-size: 16px;
+}
+
+.search-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+}
+
+.inline-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 14px 16px;
+  border: 1px solid #ececec;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.inline-card h3,
+.inline-card p {
+  margin: 0 0 4px;
+}
+
+.hot {
+  color: #c62828;
+}
+
+.fresh {
+  color: #1565c0;
 }
 
 .status {

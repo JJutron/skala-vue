@@ -94,15 +94,12 @@ day3/                                # Hands on Router / Pinia / Axios
 | 요구사항 | `element-plus` 설치 후 `main.js`에 전역 등록. 실습1 회원가입 Form. 실습2 수량·별점. 실습3 삭제 Confirm과 Progress |
 | 튜닝 | 새 `.vue`는 안 만들고 `App.vue` 맨 아래 `.column`에 붙임. day1에 라우터가 없어 PDF `main.js`의 router는 빼 둠 |
 
-실습 1은 `el-card`, `el-input`, `el-switch`, `ElMessage`입니다. 헤더는 회원가입, 함수명은 `handleResgister`입니다.
-
-실습 2는 `el-input-number`(`:max="10"`)와 `el-rate`입니다. `show-score`로 `{value} 점`을 붙였고, 헤더는 상품 수량 및 평점 선택입니다.
-
-실습 3은 `ElMessageBox.confirm`과 `el-progress`입니다. 헤더는 파일 작업입니다.
+- 실습 1은 헤더를 회원가입으로 두고 함수명은 `handleResgister`. 이메일에 `@`가 없거나 약관이 꺼져 있으면 가입을 막고 메시지를 띄움
+- 실습 2는 수량을 최대 10개로 두고 별점 옆에 `{value} 점`을 붙임. 실습 3은 삭제 전에 Confirm을 띄우고, 동기화는 진행률을 20%씩 올림. 헤더는 파일 작업
 
 날씨 Hands on UI Library는 아직 없습니다. day1 Axios 예제의 OpenWeather 키는 저장소에 넣지 않았습니다.
 
-### 01 날씨 Mockup — `day2/src/App.vue`
+### 01 날씨 Mockup — `handsOn/src/views/WeatherHomeView.vue`
 
 | 구분 | 내용 |
 | ---- | ---- |
@@ -111,7 +108,7 @@ day3/                                # Hands on Router / Pinia / Axios
 
 한글 입력은 IME 조합 때문에 `v-model`이 한 박자 늦을 수 있어서, 검색은 `:value` + `@input`으로 맞춤.
 
-### 02 날씨 컴포지션 — `day2/src/App.vue`
+### 02 날씨 컴포지션 — `handsOn/src/views/WeatherHomeView.vue`
 
 | 구분 | 내용 |
 | ---- | ---- |
@@ -136,6 +133,7 @@ slot으로 넣은 SearchBar, WeatherCard는 카드 안에 보이지만 부모 �
 
 - 추가 view는 `/stats` (`WeatherStatsView.vue`). 평균 기온, 가장 더운 곳(안성), 가장 선선한 곳(수원)
 - 도시 목록은 `src/data/weather.js`로 모았고 상세에 습도, 바람 필드를 넣음
+- 홈 맨 위에 과제 1 Mockup, 과제 2 컴포지션을 두고 과제 3부터 기존 칸을 이음. 1·2 상세보기는 `window.alert`
 
 ### 05 Pinia 단위 스토어 — `day3/src/stores/configStore.js`
 
@@ -151,7 +149,6 @@ slot으로 넣은 SearchBar, WeatherCard는 카드 안에 보이지만 부모 �
 | 요구사항 | OpenWeather Current로 실제 기온. Forecast로 상세 예보. OpenWeather가 아닌 외부 API로 확장 |
 | 튜닝 | 과제 5 칸을 과제 4 밑에 둠. 키는 `.env`의 `VITE_OPENWEATHER_KEY`. 다른 API는 Wikipedia REST 요약. 예보는 앞 8칸(24시간). 좌표·위키 제목은 `cityMeta.js` |
 
-
 ### 07 Element-plus— `day3/`
 
 | 구분 | 내용 |
@@ -159,7 +156,7 @@ slot으로 넣은 SearchBar, WeatherCard는 카드 안에 보이지만 부모 �
 | 요구사항 | `element-plus` 설치 후 `main.js`에 전역 등록. 실습1 회원가입 Form. 실습2 수량·별점. 실습3 삭제 Confirm과 Progress |
 | 튜닝 | 새 `.vue`는 안 만들고 `App.vue` 맨 아래 `.column`에 붙임. day1에 라우터가 없어 PDF `main.js`의 router는 빼 둠 |
 
-- 가입 칸은 이메일과 약관을 같이 보고, `@`가 없거나 스위치가 꺼져 있으면 메시지를 띄운 뒤 끝냅니다. 
+- 가입 칸은 이메일과 약관을 같이 보고, `@`가 없거나 스위치가 꺼져 있으면 메시지를 띄운 뒤 끝냅니다.
 - 헤더는 회원가입, 함수명은 `handleResgister`입니다.
-- 수량 칸은 10개를 넘기지 못하게 두고 별점 옆에 `{value} 점`을 붙였습니다. 
+- 수량 칸은 10개를 넘기지 못하게 두고 별점 옆에 `{value} 점`을 붙였습니다.
 - 프로그레스 칸은 지우기 전에 Confirm 토글을 띄우고, 동기화를 누르면 진행률이 20%씩 올라갑니다.
