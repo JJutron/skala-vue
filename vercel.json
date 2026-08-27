@@ -1,0 +1,7 @@
+{
+  "installCommand": "npm install --prefix weather-atlas",
+  "buildCommand": "npm run build --prefix weather-atlas",
+  "outputDirectory": "weather-atlas/dist",
+  "framework": "vite",
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+}
