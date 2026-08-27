@@ -5,6 +5,7 @@ import { useWeatherStore } from '../stores/weatherStore.js'
 import {
   brushIntroTicket,
   pendingBrushIntro,
+  skipBrushIntroOnce,
 } from '../composables/brushIntroGate.js'
 import BrushTitleIntro from '../components/intro/BrushTitleIntro.vue'
 import KoreaMap from '../components/map/KoreaMap.vue'
@@ -34,32 +35,53 @@ const {
 } = storeToRefs(store)
 const panel = ref(null)
 const showIntro = ref(false)
-const mapArmed = ref(true)
+const mapArmed = ref(false)
 
 const playIntro = () => {
   showIntro.value = true
   mapArmed.value = false
 }
 
-const onIntroComplete = () => {
+const openMap = () => {
   showIntro.value = false
   mapArmed.value = true
 }
 
+const onIntroComplete = () => {
+  openMap()
+}
+
 const consumeIntroRequest = () => {
-  if (!pendingBrushIntro.value) return false
-  pendingBrushIntro.value = false
-  playIntro()
-  return true
+  if (pendingBrushIntro.value) {
+    pendingBrushIntro.value = false
+    playIntro()
+    return true
+  }
+  return false
 }
 
 onMounted(() => {
-  consumeIntroRequest()
+  if (consumeIntroRequest()) {
+    // brand requested intro
+  } else if (skipBrushIntroOnce.value) {
+    skipBrushIntroOnce.value = false
+    openMap()
+  } else {
+    // First visit / refresh: play hero
+    playIntro()
+  }
   store.loadAll()
 })
 
 watch(brushIntroTicket, () => {
   consumeIntroRequest()
+})
+
+watch(skipBrushIntroOnce, (skip) => {
+  if (!skip) return
+  // Already on home: 지도 clicked — dismiss hero / stay on map
+  skipBrushIntroOnce.value = false
+  openMap()
 })
 
 watch(selectedRegionId, async (id) => {

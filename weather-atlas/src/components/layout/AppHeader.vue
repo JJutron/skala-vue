@@ -1,12 +1,15 @@
 <script setup>
 import { useRoute } from 'vue-router'
 import BrandMark from './BrandMark.vue'
-import { requestBrushIntro } from '../../composables/brushIntroGate.js'
+import {
+  requestBrushIntro,
+  requestSkipIntro,
+} from '../../composables/brushIntroGate.js'
 
 const route = useRoute()
 
 const links = [
-  { to: '/', label: '지도', match: (path) => path === '/' },
+  { to: '/', label: '지도', match: (path) => path === '/', skipIntro: true },
   { to: '/archive', label: '실습 아카이브', match: (path) => path.startsWith('/archive') },
   { to: '/challenge', label: '코드 챌린지', match: (path) => path.startsWith('/challenge') },
 ]
@@ -14,6 +17,10 @@ const links = [
 const onBrandClick = (event) => {
   requestBrushIntro()
   if (route.path === '/') event.preventDefault()
+}
+
+const onNavClick = (link) => {
+  if (link.skipIntro) requestSkipIntro()
 }
 </script>
 
@@ -30,6 +37,7 @@ const onBrandClick = (event) => {
         :to="link.to"
         class="nav-link"
         :class="{ active: link.match(route.path) }"
+        @click="onNavClick(link)"
       >
         {{ link.label }}
       </RouterLink>

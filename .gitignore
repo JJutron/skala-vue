@@ -10,3 +10,5 @@ coverage
 .env.*
 README.draft.md
 _workspace
+.vercel
+.env*
