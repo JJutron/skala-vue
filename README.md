@@ -24,44 +24,97 @@ day3에 Vue Router, Pinia, Axios가 들어 있습니다. `/` 대시보드, `/wea
 ## 폴더 구조
 
 ```
-day1/                                # Code Challenge
-├── src/main.js                      # Pinia, Element Plus
-├── src/App.vue                      # 지시자 ~ 슬롯, Pinia/Axios, Element Plus 카드 3개
-├── counter.js                       # Pinia 카운터 스토어
-└── src/components/
-    ├── LifeCycleDemo.vue
-    ├── PropsEmitsChild.vue
-    ├── SlotDefaultChild.vue
-    ├── NamedSlot.vue
-    ├── ScoppedSlot.vue              # 파일명 오타 그대로
-    ├── StoreCounter.vue
-    └── AxiosWeather.vue             # 키는 코드에 없음
+skala-vue/
+│
+├── weather-atlas/                    # 메인 Weather Atlas 프로젝트
+│   │
+│   ├── src/
+│   │   ├── components/              # 지도, 날씨, 레이아웃, 실습 UI 컴포넌트
+│   │   ├── composables/             # Composition API 기반 화면 로직
+│   │   ├── data/                    # 지역 정보, 지도 경로, 아카이브 데이터
+│   │   ├── services/                # OpenWeather API 및 데이터 변환 로직
+│   │   ├── stores/                  # Pinia 날씨 상태 관리
+│   │   ├── views/                   # 홈, 챌린지, 아카이브 화면
+│   │   └── router/                  # Vue Router 설정
+│   │
+│   └── .env.example                  # 환경 변수 예시
+│
+├── handsOn/                          # 단계별 날씨 대시보드 실습 원본
+│
+└── codeChallenge/                    # Vue 기능별 Code Challenge 원본
+```
 
-day2/                                # Hands on 날씨 1~3
-├── src/App.vue                      # 상태 소유 (검색, 필터, watch)
-└── src/components/
-    ├── BaseDashboardCard.vue
-    ├── SearchBar.vue
-    └── WeatherCard.vue
+데이터 처리 방식
 
-day3/                                # Hands on Router / Pinia / Axios
-├── .env.example                     # VITE_OPENWEATHER_KEY
-├── src/main.js                      # router, createPinia()
-├── src/App.vue                      # RouterLink, UnitToggler
-├── src/router/index.js              # Lazy Loading, Catch-all
-├── src/stores/configStore.js        # 기온 단위
-├── src/api/openWeather.js
-├── src/api/wikipedia.js
-├── src/data/weather.js              # mock 4도시
-├── src/data/cityMeta.js             # 좌표, 위키 제목
-├── src/components/UnitToggler.vue
-├── src/components/exercise/         # SearchBar, WeatherCard, WeatherCard4
-└── src/views/
-    ├── WeatherHomeView.vue
-    ├── WeatherDetailView.vue
-    ├── WeatherAboutView.vue
-    ├── WeatherStatsView.vue         # 추가 view
-    └── NotFoundView.vue
+Weather Atlas는 OpenWeather API를 통해 현재 날씨와 대기질 데이터를 가져옵니다.
+
+API 응답 데이터는 서비스에서 사용하는 형태로 변환한 후 Pinia Store를 통해 관리하며, 화면에서는 지역 선택에 따라 필요한 정보를 표시합니다.
+
+데이터 흐름
+```
+사용자
+  ↓
+대한민국 지도에서 지역 선택
+  ↓
+Weather Store
+  ↓
+OpenWeather API
+  ↓
+날씨 / 대기질 데이터 변환
+  ↓
+Weather Components
+  ↓
+화면에 지역별 정보 표시
+```
+
+API 예외 처리
+
+```
+OpenWeather API 요청
+       │
+       ├── 성공 → 실시간 데이터 사용
+       │
+       └── 실패 / API Key 없음
+                    ↓
+              샘플 데이터 사용
+```
+
+API 키가 없거나 네트워크 요청에 실패하더라도 프로젝트 자체는 정상적으로 실행되도록 구성했습니다.
+
+프로젝트 구성
+
+전체 프로젝트는 크게 세 영역으로 구성됩니다.
+
+1. Weather Atlas
+
+대한민국 지도를 중심으로 지역별 날씨와 대기질을 확인하는 메인 서비스입니다.
+
+2. Hands-on Archive
+
+Vue를 학습하면서 단계별로 구현한 날씨 대시보드를 아카이브 형태로 제공합니다.
+
+3. Code Challenge
+
+Vue의 핵심 기능을 직접 구현하며 학습 내용을 확인할 수 있도록 구성했습니다.
+
+```
+SKALA Vue
+│
+├── Weather Atlas
+│   ├── Interactive Map
+│   ├── Weather Information
+│   └── Air Quality
+│
+├── Hands-on Archive
+│   ├── Mockup
+│   ├── Composition API
+│   ├── Component
+│   ├── Pinia
+│   ├── Axios
+│   └── Element Plus
+│
+└── Code Challenge
+    └── Vue Core Features
 ```
 
 ## 과제별 정리
@@ -70,13 +123,7 @@ day3/                                # Hands on Router / Pinia / Axios
 Hands-on은 Vue의 주요 기능을 하나씩 실제 날씨 대시보드에 적용하면서,
 기본 문법부터 컴포넌트, Router, Pinia, Axios, UI Library까지 단계적으로 확장하는 실습입니다.
 
-<<<<<<< HEAD
-각 과제는 이전 과제의 결과물을 이어서 사용합니다.
-따라서 과제마다 새로운 프로젝트를 만드는 것이 아니라,
-하나의 날씨 서비스를 점차 실제 서비스에 가까운 구조로 발전시키는 방식으로 구성했습니다.
 
-=======
->>>>>>> 4c4d368 (Add weather-atlas with air pollution map layer and layout polish.)
 ### 01 날씨 Mockup — `day2/src/views/WeatherHomeView.vue`
 
 | 구분 | 내용 |
@@ -102,11 +149,6 @@ Hands-on은 Vue의 주요 기능을 하나씩 실제 날씨 대시보드에 적�
 카드 내부의 상세보기 버튼은 `@click.stop`을 사용하여
 버튼을 클릭했을 때 카드 클릭 이벤트까지 함께 발생하지 않도록 처리합니다.
 
-<<<<<<< HEAD
-이 단계에서는 Router를 사용하지 않고 상세보기 정보를 `window.alert`로 보여줍니다.
-페이지 이동은 이후 Router Hands-on에서 추가합니다.
-=======
->>>>>>> 4c4d368 (Add weather-atlas with air pollution map layer and layout polish.)
 
 ### 02 날씨 컴포지션 — `day2/src/views/WeatherHomeView.vue`
 
@@ -138,11 +180,6 @@ Hands-on은 Vue의 주요 기능을 하나씩 실제 날씨 대시보드에 적�
 검색 결과의 개수는 `resultCount`라는 `computed`로 만들어
 현재 몇 개의 도시가 검색되었는지 화면에 표시합니다.
 
-<<<<<<< HEAD
-이 과제에서는 새로운 기능을 추가하는 것보다
-하나의 화면에서 사용되는 여러 상태와 로직을 Composition API로 어떻게 관리하는지 이해하는 데 초점을 둡니다.
-=======
->>>>>>> 4c4d368 (Add weather-atlas with air pollution map layer and layout polish.)
 
 ### 03 날씨 컴포넌트 — `day2/src/components/`
 
@@ -217,11 +254,6 @@ Vue Router를 이용해 여러 페이지로 확장합니다.
 `/stats`에서는 현재 날씨 mock 데이터를 활용해
 평균 기온, 가장 더운 도시, 가장 선선한 도시 등의 간단한 통계를 보여줍니다.
 
-<<<<<<< HEAD
-이 단계부터는 단순한 Vue 문법 사용을 넘어
-**컴포넌트와 View, URL, 데이터를 하나의 애플리케이션 구조로 연결하는 것**을 목표로 합니다.
-=======
->>>>>>> 4c4d368 (Add weather-atlas with air pollution map layer and layout polish.)
 
 ### 05 Store 적용 — `day3/src/stores/configStore.js`
 
@@ -247,12 +279,7 @@ Store에서는 현재 선택된 단위와 단위 기호를 관리하고,
 따라서 한 화면에서 온도 단위를 변경하면
 다른 화면에서도 동일한 설정을 사용할 수 있습니다.
 
-<<<<<<< HEAD
-이 과제에서는 Pinia의 문법 자체보다
-**어떤 상태를 컴포넌트 내부에서 관리하고,
-어떤 상태를 여러 컴포넌트가 공유하도록 Store로 분리해야 하는지**를 이해하는 데 초점을 둡니다.
-=======
->>>>>>> 4c4d368 (Add weather-atlas with air pollution map layer and layout polish.)
+
 
 ### 06 데이터 연동 — `day3/`
 
@@ -294,12 +321,7 @@ API 요청 과정에서는 최소한 다음 상태를 고려합니다.
 또한 Wikipedia REST API를 이용해
 각 도시의 간단한 소개 정보를 함께 표시합니다.
 
-<<<<<<< HEAD
-이 과제에서는 Axios 사용법만 익히는 것이 아니라
-**외부에서 비동기 데이터가 들어오고,
-그 결과에 따라 화면의 상태가 변경되는 과정**을 이해하도록 구성합니다.
-=======
->>>>>>> 4c4d368 (Add weather-atlas with air pollution map layer and layout polish.)
+
 
 ### 07 Element Plus — `day3/`
 
@@ -334,49 +356,3 @@ UI Component Library를 이용해 구성합니다.
 
 동기화 버튼을 누르면 Progress가 20%씩 증가하도록 하여
 사용자의 동작과 UI 컴포넌트의 상태 변화를 함께 확인합니다.
-
-<<<<<<< HEAD
-이 과제에서는 새로운 `.vue` 파일을 여러 개 만드는 대신
-기존 `App.vue`의 실습 영역에 각 기능을 구성합니다.
-=======
->>>>>>> 4c4d368 (Add weather-atlas with air pollution map layer and layout polish.)
-
----
-
-## Hands-on 전체 흐름
-
-7개의 Hands-on은 각각 별도의 예제가 아니라
-하나의 날씨 서비스를 단계적으로 발전시키는 방식으로 구성합니다.
-
-```text
-01. 날씨 Mockup
-    ↓
-Vue 기본 문법과 이벤트 처리
-    ↓
-02. 날씨 컴포지션
-    ↓
-Composition API를 이용한 상태 및 로직 관리
-    ↓
-03. 날씨 컴포넌트
-    ↓
-Props / Emits와 컴포넌트 분리
-    ↓
-04. Router 활용
-    ↓
-페이지 이동과 동적 Route
-    ↓
-05. Store 적용
-    ↓
-Pinia를 이용한 전역 상태 관리
-    ↓
-06. 데이터 연동
-    ↓
-Axios와 실제 OpenWeather API 연결
-    ↓
-07. Element Plus
-    ↓
-<<<<<<< HEAD
-UI Component Library 적용
-=======
-UI Component Library 적용
->>>>>>> 4c4d368 (Add weather-atlas with air pollution map layer and layout polish.)
