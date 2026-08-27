@@ -2,7 +2,7 @@
 
 SKALA Full-Stack Engineering — Vue.js 실습 저장소.
 따라 치다 같은 파일을 덮어써서 Day 1~3을 폴더로 나눠 두었습니다.
-Code Challenge(지시자, Composition API, 컴포넌트)와 Hands on 날씨 Mockup / Composition / Component / Router까지 넣었습니다.
+Code Challenge(지시자, Composition API, 컴포넌트)와 Hands on 날씨 Mockup / Composition / Component / Router / Pinia / Axios까지 넣었습니다.
 날씨 데이터는 서울, 수원, 부산에 안성을 더한 4개 도시입니다.
 
 ## 실행 방법
@@ -18,7 +18,8 @@ npm run dev
 - Node 22.18+ / 24.12+ (`package.json` engines 기준)
 - 빌드: `npm run build` · 미리보기: `npm run preview`
 
-day3만 Vue Router가 들어 있습니다. `/` 대시보드, `/weather/:cityId` 상세, `/about` 소개, `/stats` 통계, 없는 주소는 404입니다.
+day3에 Vue Router, Pinia, Axios가 들어 있습니다. `/` 대시보드, `/weather/:cityId` 상세, `/about` 소개, `/stats` 통계, 없는 주소는 404입니다.
+실시간 날씨는 `.env`의 `VITE_OPENWEATHER_KEY`가 있어야 하고, 예시는 `day3/.env.example`입니다.
 
 ## 폴더 구조
 
@@ -39,12 +40,18 @@ day2/                                # Hands on 날씨 1~3
     ├── SearchBar.vue
     └── WeatherCard.vue
 
-day3/                                # Hands on-Weather Router
-├── src/main.js                      # app.use(router)
-├── src/App.vue                      # RouterLink + RouterView
+day3/                                # Hands on Router / Pinia / Axios
+├── .env.example                     # VITE_OPENWEATHER_KEY
+├── src/main.js                      # router, createPinia()
+├── src/App.vue                      # RouterLink, UnitToggler
 ├── src/router/index.js              # Lazy Loading, Catch-all
-├── src/data/weather.js
-├── src/components/exercise/         # 실습용 카드 3개
+├── src/stores/configStore.js        # 기온 단위
+├── src/api/openWeather.js
+├── src/api/wikipedia.js
+├── src/data/weather.js              # mock 4도시
+├── src/data/cityMeta.js             # 좌표, 위키 제목
+├── src/components/UnitToggler.vue
+├── src/components/exercise/         # SearchBar, WeatherCard, WeatherCard4
 └── src/views/
     ├── WeatherHomeView.vue
     ├── WeatherDetailView.vue
@@ -110,4 +117,19 @@ slot으로 넣은 SearchBar, WeatherCard는 카드 안에 보이지만 부모 �
 
 - 추가 view는 `/stats` (`WeatherStatsView.vue`). 평균 기온, 가장 더운 곳(안성), 가장 선선한 곳(수원)
 - 도시 목록은 `src/data/weather.js`로 모았고 상세에 습도, 바람 필드를 넣음
-- Pinia, Axios, UI 라이브러리는 이번 Hands on에 넣지 않음
+
+### 05 Pinia 단위 스토어 — `day3/src/stores/configStore.js`
+
+| 구분 | 내용 |
+| ---- | ---- |
+| 요구사항 | `config` 스토어에 unit, unitSymbol, toggleUnit. 내비에 UnitToggler. 카드·상세 기온이 스토어 단위를 따름 |
+| 튜닝 | 과제 3은 지우지 않고 홈 아래에 과제 4 칸을 복제함. 단위가 바뀌는 카드는 `WeatherCard4.vue` |
+
+### 06 Axios Hands on — `day3/`
+
+| 구분 | 내용 |
+| ---- | ---- |
+| 요구사항 | OpenWeather Current로 실제 기온. Forecast로 상세 예보. OpenWeather가 아닌 외부 API로 확장 |
+| 튜닝 | 과제 5 칸을 과제 4 밑에 둠. 키는 `.env`의 `VITE_OPENWEATHER_KEY`. 다른 API는 Wikipedia REST 요약. 예보는 앞 8칸(24시간). 좌표·위키 제목은 `cityMeta.js` |
+
+키가 없으면 과제 5와 예보만 안내 문구가 나옵니다. 과제 3·4 mock은 그대로입니다. UI 라이브러리는 넣지 않았습니다.
