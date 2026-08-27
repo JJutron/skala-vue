@@ -2,7 +2,7 @@
 
 SKALA Full-Stack Engineering — Vue.js 실습 저장소.
 따라 치다 같은 파일을 덮어써서 Day 1~3을 폴더로 나눠 두었습니다.
-Code Challenge(지시자, Composition API, 컴포넌트)와 Hands on 날씨 Mockup / Composition / Component / Router / Pinia / Axios까지 넣었습니다.
+Code Challenge(지시자, Composition API, 컴포넌트, Element Plus)와 Hands on 날씨 Mockup / Composition / Component / Router / Pinia / Axios까지 넣었습니다.
 날씨 데이터는 서울, 수원, 부산에 안성을 더한 4개 도시입니다.
 
 ## 실행 방법
@@ -25,7 +25,8 @@ day3에 Vue Router, Pinia, Axios가 들어 있습니다. `/` 대시보드, `/wea
 
 ```
 day1/                                # Code Challenge
-├── src/App.vue                      # 지시자 ~ 슬롯까지 한 화면에 쌓음
+├── src/main.js                      # Pinia, Element Plus
+├── src/App.vue                      # 지시자 ~ 슬롯, Pinia/Axios, Element Plus 카드 3개
 └── src/components/
     ├── LifeCycleDemo.vue
     ├── PropsEmitsChild.vue
@@ -83,6 +84,15 @@ day3/                                # Hands on Router / Pinia / Axios
 | 요구사항 | Lifecycle Hook · Props & Emits · Default / Named / Scoped Slot |
 | 튜닝 | Scoped Slot 파일명을 `ScoppedSlot.vue`로 둔 채 제출 |
 
+### Code Challenge UI Libraries — `day1/src/App.vue`
+
+| 구분 | 내용 |
+| ---- | ---- |
+| 요구사항 | Element Plus 전역 등록. 회원가입(`el-input`, `el-switch`, `ElMessage`). 수량·별점(`el-input-number`, `el-rate`). 삭제 확인·진행률(`ElMessageBox`, `el-progress`) |
+| 튜닝 | 새 `.vue`는 안 만들고 `App.vue` 맨 아래 `.column`에 붙임. day1에 라우터가 없어 PDF `main.js`의 router는 빼 둠 |
+
+1번 헤더는 회원가입, 함수명은 `handleResgister`입니다. 2번 헤더는 상품 수량 및 평점 선택이고 `el-rate`에 `show-score`를 넣었습니다. 3번 헤더는 파일 작업입니다. 날씨 Hands on UI Library는 아직 없습니다.
+
 ### 01 날씨 Mockup — `day2/src/App.vue`
 
 | 구분 | 내용 |
@@ -132,4 +142,4 @@ slot으로 넣은 SearchBar, WeatherCard는 카드 안에 보이지만 부모 �
 | 요구사항 | OpenWeather Current로 실제 기온. Forecast로 상세 예보. OpenWeather가 아닌 외부 API로 확장 |
 | 튜닝 | 과제 5 칸을 과제 4 밑에 둠. 키는 `.env`의 `VITE_OPENWEATHER_KEY`. 다른 API는 Wikipedia REST 요약. 예보는 앞 8칸(24시간). 좌표·위키 제목은 `cityMeta.js` |
 
-키가 없으면 과제 5와 예보만 안내 문구가 나옵니다. 과제 3·4 mock은 그대로입니다. UI 라이브러리는 넣지 않았습니다.
+키가 없으면 과제 5와 예보만 안내 문구가 나옵니다. 과제 3·4 mock은 그대로입니다. Element Plus는 day1 Code Challenge에만 넣었고, 날씨 앱 Hands on에는 아직 없습니다.

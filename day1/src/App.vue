@@ -7,6 +7,10 @@ import PropsEmitsChild from './components/PropsEmitsChild.vue'
 import SlotDefaultChild from './components/SlotDefaultChild.vue'
 import NamedSlot from './components/NamedSlot.vue'
 import ScoppedSlot from './components/ScoppedSlot.vue'
+import StoreCounter from './components/StoreCounter.vue'
+import AxiosWeather from './components/AxiosWeather.vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
+
 // 2단계: v-html
 const rawHtmlData =
   '이 글자는 <span style="color: red; font-weight: bold;">빨간색 굵은 글자</span>이다.'
@@ -194,7 +198,63 @@ const handleUpdateRequest = (newValue) => {
 }
 
 
+//28단계
+const userForm = ref({
+  email:'',
+  agree: false,
+})
 
+const handleResgister = () => {
+  if(!userForm.value.email.includes('@')){
+    ElMessage.error('올바른 이메일 형식이 아닙니다.')
+    return
+  }
+if(!userForm.value.agree) {
+  ElMessage.warning('이용약관에 동의하셔야합니다.')
+  return
+}
+ElMessage.success('가입 신청이 완료되었습니다.')
+
+}
+
+//28-2
+const productQuantity = ref(1)
+const productRate = ref(4)
+
+//28-3 
+const downloadProgress = ref(0)
+const isDownloading = ref(false)
+const confirmDelete = () => {
+  ElMessageBox.confirm(
+    '서버에서 해당 파일을 영구히 삭제하시겠습니까?',
+    '최종 경고',
+    {
+      confirmButtonText: '네 삭제합니다',
+      cancleButtonText: '취소',
+      type: 'danger',
+    },
+  )
+  .then(() => {
+    ElMessage.success('파일이 안전하게 파쇄되었습니다.')
+  })
+  .catch(() => {
+    ElMessage.info('삭제 작업이 취소되었습니다.')
+  })
+}
+
+const startDownload = () => {
+  if (isDownloading.value) return
+  isDownloading.value = true
+  downloadProgress.value = 0
+  const interval = setInterval(() => {
+    downloadProgress.value += 20
+    if (downloadProgress.value >= 100) {
+      clearInterval(interval)
+      isDownloading.value = false
+      ElMessage.success('대용량 데이터 로드가 완료되었습니다!')
+    }
+  }, 400)
+}
 
 </script>
 
@@ -652,16 +712,58 @@ const handleUpdateRequest = (newValue) => {
         </div>
         </div>
 
+        <div class="columns">
+          <h2>29단계 Pinia 실습</h2>
+          <div class="column">
+            <StoreCounter />
+          </div>
+        </div>
+
+        <div class="columns">
+          <div class="column">
+            <AxiosWeather />
+          </div>
+        </div>
         
+        <div class ="columns">
+          <div class="column">
+            <el-card>
+              <template #header>회원가입</template>
+              <el-input v-model="userForm.email" placeholder="이메일 주소" />
+              <el-switch v-model="userForm.agree" active-text="약관 동의" />
+              <el-button type="primary" @click="handleResgister">회원가입</el-button>
+            </el-card>
+          </div>
+        </div>
 
+        <div class ="columns">
+          <div class="column">
+            <el-card>
+              <template #header> 상품 수량 및 평점 선택 </template>
+              <p>구매 수량 선택: </p>
+              <el-input-number v-model="productQuantity" :min="1" :max="10" />
+              <span> (최대 10개 구매 가능)</span>
 
+              <p>수량 {{ productQuantity }}개 / 별점 {{ productRate }}점</p>
+              <el-rate
+              v-model="productRate"
+              show-score
+              score-template="{value} 점"
+              />
+            </el-card>
+            </div>
+            </div>
 
-
-
-
-
-
-
+        <div class="columns">
+  <div class="column">
+    <el-card>
+      <template #header>파일 작업</template>
+      <el-button type="danger" @click="confirmDelete">삭제 테스트</el-button>
+      <el-button type="primary" @click="startDownload">동기화 시작</el-button>
+      <el-progress :percentage="downloadProgress" />
+    </el-card>
+  </div>
+</div>
 
   </div>
 </template>
