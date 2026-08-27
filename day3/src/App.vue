@@ -1,4 +1,5 @@
 <script setup>
+import UnitToggler from './components/UnitToggler.vue'
 </script>
 
 <template>
@@ -9,6 +10,7 @@
       </RouterLink>
       <RouterLink to="/about">소개</RouterLink>
       <RouterLink to="/stats">통계</RouterLink>
+      <UnitToggler />
     </nav>
 
     <RouterView />
@@ -26,6 +28,7 @@
 
 .nav {
   display: flex;
+  align-items: center;
   gap: 16px;
   padding: 16px 24px;
   border-bottom: 1px solid #eee;
