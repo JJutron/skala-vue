@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 300" fill="none" aria-hidden="true">
+  <!--
+    ??? brush intro — stroke-order mask centerlines used by BrushTitleIntro.vue.
+    Glyph fills are Song Myung <text> nodes in the Vue component.
+  -->
+  <g id="masks">
+    <!-- ? -->
+    <path id="mask-gi-1" d="M48 88 C110 72 170 70 236 86" />
+    <path id="mask-gi-2" d="M92 96 C88 140 84 184 92 236" />
+    <path id="mask-gi-3" d="M168 78 C172 130 174 182 168 248" />
+    <!-- ? -->
+    <path id="mask-sang-1" d="M318 86 C348 120 362 154 368 188" />
+    <path id="mask-sang-2" d="M448 82 C420 118 402 154 392 188" />
+    <path id="mask-sang-3" d="M478 64 C482 120 484 180 478 256" />
+    <path id="mask-sang-4" d="M478 148 C510 146 540 150 568 156" />
+    <path id="mask-sang-5" d="M388 206 C388 176 410 158 438 158 C466 158 488 178 488 208 C488 238 466 258 438 258 C410 258 388 238 388 208" />
+    <!-- ? -->
+    <path id="mask-do-1" d="M598 78 C650 70 702 72 752 84" />
+    <path id="mask-do-2" d="M610 92 C604 140 602 186 612 228 C652 222 700 220 748 230" />
+    <path id="mask-do-3" d="M620 246 C670 238 720 242 770 254" />
+    <path id="mask-do-4" d="M688 214 C692 242 692 268 688 292" />
+  </g>
+</svg>

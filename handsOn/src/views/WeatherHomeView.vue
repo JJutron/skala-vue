@@ -9,8 +9,11 @@ import { cityMetaList } from '../data/cityMeta.js'
 import { fetchLiveCities } from '../api/openWeather.js'
 import UnitToggler from '../components/UnitToggler.vue'
 import WeatherCard4 from '../components/exercise/WeatherCard4.vue'
+import WeatherCard6 from '../components/exercise/WeatherCard6.vue'
+import { useConfigStore } from '../stores/configStore.js'
 
 const router = useRouter()
+const configStore = useConfigStore()
 const weatherList = ref(weatherData)
 
 const searchQuery1 = ref('')
@@ -166,6 +169,30 @@ const loadLiveWeather = async () => {
 onMounted(() => {
   loadLiveWeather()
 })
+
+const searchQuery6 = ref('')
+
+const selectedCityInfo6 = ref({
+  message: '카드를 클릭하거나 검색해 보세요.',
+})
+
+const filteredWeatherList6 = computed(() => {
+  return liveWeatherList.value.filter((city) =>
+    city.name.includes(searchQuery6.value),
+  )
+})
+
+const resultCount6 = computed(() => filteredWeatherList6.value.length)
+
+const selectCity6 = (cityName) => {
+  selectedCityInfo6.value = {
+    message: `${cityName}이 선택되었습니다.`,
+  }
+}
+
+const showDetail6 = (city) => {
+  router.push('/weather/' + city.id)
+}
 </script>
 
 <template>
@@ -333,6 +360,62 @@ onMounted(() => {
     </BaseDashboardCard>
 
     <div class="status">{{ selectedCityInfo5.message }}</div>
+
+    <div class="toolbar-6">
+      <h2 class="homework-6">과제 6: 날씨 (UI Library)</h2>
+      <el-switch
+        :model-value="configStore.unit === 'fahrenheit'"
+        inline-prompt
+        active-text="℉"
+        inactive-text="℃"
+        @change="configStore.toggleUnit"
+      />
+    </div>
+
+    <section class="block">
+      <el-input
+        :model-value="searchQuery6"
+        clearable
+        placeholder="검색할 도시 이름 입력"
+        @input="searchQuery6 = $event"
+        @clear="searchQuery6 = ''"
+      />
+      <p>검색 결과 {{ resultCount6 }}건</p>
+      <el-alert
+        v-if="isLoading5"
+        title="실시간 날씨를 불러오는 중입니다..."
+        type="info"
+        :closable="false"
+      />
+      <el-alert
+        v-else-if="liveError"
+        :title="liveError"
+        type="error"
+        :closable="false"
+      />
+    </section>
+
+    <section class="block">
+      <h2>실시간 지역별 날씨</h2>
+      <el-empty
+        v-if="!isLoading5 && !liveError && filteredWeatherList6.length === 0"
+        description="일치하는 도시가 없습니다."
+      />
+      <WeatherCard6
+        v-for="city in filteredWeatherList6"
+        :key="city.id"
+        :city="city"
+        @select-card="selectCity6"
+        @click-detail="showDetail6"
+      />
+    </section>
+
+    <el-alert
+      class="status-alert"
+      :title="selectedCityInfo6.message"
+      type="success"
+      :closable="false"
+    />
   </div>
 </template>
 
@@ -395,15 +478,23 @@ onMounted(() => {
 }
 
 .toolbar-4,
-.toolbar-5 {
+.toolbar-5,
+.toolbar-6 {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 12px 24px 8px;
 }
 
-.homework-5 {
+.homework-5,
+.homework-6 {
   margin-top: 8px;
   border-top: 1px solid #eee;
+}
+
+.status-alert {
+  margin: 0;
+  border-radius: 0;
 }
 
 .live-error {

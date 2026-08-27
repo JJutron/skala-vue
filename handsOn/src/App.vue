@@ -1,15 +1,24 @@
 <script setup>
+import { useRoute } from 'vue-router'
 import UnitToggler from './components/UnitToggler.vue'
+
+const route = useRoute()
 </script>
 
 <template>
   <div class="app">
     <nav class="nav">
-      <RouterLink to="/" active-class="none" exact-active-class="router-link-active">
-        대시보드
-      </RouterLink>
-      <RouterLink to="/about">소개</RouterLink>
-      <RouterLink to="/stats">통계</RouterLink>
+      <el-menu
+        class="nav-menu"
+        mode="horizontal"
+        router
+        :ellipsis="false"
+        :default-active="route.path"
+      >
+        <el-menu-item index="/">대시보드</el-menu-item>
+        <el-menu-item index="/about">소개</el-menu-item>
+        <el-menu-item index="/stats">통계</el-menu-item>
+      </el-menu>
       <UnitToggler />
     </nav>
 
@@ -29,17 +38,12 @@ import UnitToggler from './components/UnitToggler.vue'
 .nav {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 16px 24px;
+  justify-content: space-between;
   border-bottom: 1px solid #eee;
 }
 
-.nav a {
-  color: #2e7d32;
-  text-decoration: none;
-}
-
-.nav a.router-link-active {
-  font-weight: 700;
+.nav-menu {
+  flex: 1;
+  border-bottom: none;
 }
 </style>

@@ -70,10 +70,13 @@ day3/                                # Hands on Router / Pinia / Axios
 Hands-on은 Vue의 주요 기능을 하나씩 실제 날씨 대시보드에 적용하면서,
 기본 문법부터 컴포넌트, Router, Pinia, Axios, UI Library까지 단계적으로 확장하는 실습입니다.
 
+<<<<<<< HEAD
 각 과제는 이전 과제의 결과물을 이어서 사용합니다.
 따라서 과제마다 새로운 프로젝트를 만드는 것이 아니라,
 하나의 날씨 서비스를 점차 실제 서비스에 가까운 구조로 발전시키는 방식으로 구성했습니다.
 
+=======
+>>>>>>> 4c4d368 (Add weather-atlas with air pollution map layer and layout polish.)
 ### 01 날씨 Mockup — `day2/src/views/WeatherHomeView.vue`
 
 | 구분 | 내용 |
@@ -99,8 +102,11 @@ Hands-on은 Vue의 주요 기능을 하나씩 실제 날씨 대시보드에 적�
 카드 내부의 상세보기 버튼은 `@click.stop`을 사용하여
 버튼을 클릭했을 때 카드 클릭 이벤트까지 함께 발생하지 않도록 처리합니다.
 
+<<<<<<< HEAD
 이 단계에서는 Router를 사용하지 않고 상세보기 정보를 `window.alert`로 보여줍니다.
 페이지 이동은 이후 Router Hands-on에서 추가합니다.
+=======
+>>>>>>> 4c4d368 (Add weather-atlas with air pollution map layer and layout polish.)
 
 ### 02 날씨 컴포지션 — `day2/src/views/WeatherHomeView.vue`
 
@@ -132,8 +138,11 @@ Hands-on은 Vue의 주요 기능을 하나씩 실제 날씨 대시보드에 적�
 검색 결과의 개수는 `resultCount`라는 `computed`로 만들어
 현재 몇 개의 도시가 검색되었는지 화면에 표시합니다.
 
+<<<<<<< HEAD
 이 과제에서는 새로운 기능을 추가하는 것보다
 하나의 화면에서 사용되는 여러 상태와 로직을 Composition API로 어떻게 관리하는지 이해하는 데 초점을 둡니다.
+=======
+>>>>>>> 4c4d368 (Add weather-atlas with air pollution map layer and layout polish.)
 
 ### 03 날씨 컴포넌트 — `day2/src/components/`
 
@@ -208,8 +217,11 @@ Vue Router를 이용해 여러 페이지로 확장합니다.
 `/stats`에서는 현재 날씨 mock 데이터를 활용해
 평균 기온, 가장 더운 도시, 가장 선선한 도시 등의 간단한 통계를 보여줍니다.
 
+<<<<<<< HEAD
 이 단계부터는 단순한 Vue 문법 사용을 넘어
 **컴포넌트와 View, URL, 데이터를 하나의 애플리케이션 구조로 연결하는 것**을 목표로 합니다.
+=======
+>>>>>>> 4c4d368 (Add weather-atlas with air pollution map layer and layout polish.)
 
 ### 05 Store 적용 — `day3/src/stores/configStore.js`
 
@@ -235,9 +247,12 @@ Store에서는 현재 선택된 단위와 단위 기호를 관리하고,
 따라서 한 화면에서 온도 단위를 변경하면
 다른 화면에서도 동일한 설정을 사용할 수 있습니다.
 
+<<<<<<< HEAD
 이 과제에서는 Pinia의 문법 자체보다
 **어떤 상태를 컴포넌트 내부에서 관리하고,
 어떤 상태를 여러 컴포넌트가 공유하도록 Store로 분리해야 하는지**를 이해하는 데 초점을 둡니다.
+=======
+>>>>>>> 4c4d368 (Add weather-atlas with air pollution map layer and layout polish.)
 
 ### 06 데이터 연동 — `day3/`
 
@@ -279,9 +294,12 @@ API 요청 과정에서는 최소한 다음 상태를 고려합니다.
 또한 Wikipedia REST API를 이용해
 각 도시의 간단한 소개 정보를 함께 표시합니다.
 
+<<<<<<< HEAD
 이 과제에서는 Axios 사용법만 익히는 것이 아니라
 **외부에서 비동기 데이터가 들어오고,
 그 결과에 따라 화면의 상태가 변경되는 과정**을 이해하도록 구성합니다.
+=======
+>>>>>>> 4c4d368 (Add weather-atlas with air pollution map layer and layout polish.)
 
 ### 07 Element Plus — `day3/`
 
@@ -317,8 +335,11 @@ UI Component Library를 이용해 구성합니다.
 동기화 버튼을 누르면 Progress가 20%씩 증가하도록 하여
 사용자의 동작과 UI 컴포넌트의 상태 변화를 함께 확인합니다.
 
+<<<<<<< HEAD
 이 과제에서는 새로운 `.vue` 파일을 여러 개 만드는 대신
 기존 `App.vue`의 실습 영역에 각 기능을 구성합니다.
+=======
+>>>>>>> 4c4d368 (Add weather-atlas with air pollution map layer and layout polish.)
 
 ---
 
@@ -354,4 +375,8 @@ Axios와 실제 OpenWeather API 연결
     ↓
 07. Element Plus
     ↓
+<<<<<<< HEAD
 UI Component Library 적용
+=======
+UI Component Library 적용
+>>>>>>> 4c4d368 (Add weather-atlas with air pollution map layer and layout polish.)

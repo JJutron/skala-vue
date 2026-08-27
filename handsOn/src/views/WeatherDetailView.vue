@@ -112,38 +112,52 @@ const displayTemp = computed(() => {
 
 <template>
   <section class="detail">
-    <h2>날씨 상세</h2>
+    <el-page-header @back="goHome">
+      <template #content>날씨 상세</template>
+    </el-page-header>
 
-    <template v-if="city">
-      <p class="name">{{ city.name }}</p>
-      <p>상태: {{ city.status }}</p>
-      <p>기온: {{ displayTemp }}{{ configStore.unitSymbol }}</p>
-      <p>습도: {{ city.humidity }}%</p>
-      <p>바람: {{ city.wind }} m/s</p>
-    </template>
-    <p v-else>해당 도시 정보를 찾을 수 없습니다.</p>
+    <el-card v-if="city" class="panel">
+      <template #header>{{ city.name }}</template>
+      <el-descriptions :column="1" border>
+        <el-descriptions-item label="상태">{{ city.status }}</el-descriptions-item>
+        <el-descriptions-item label="기온">
+          {{ displayTemp }}{{ configStore.unitSymbol }}
+        </el-descriptions-item>
+        <el-descriptions-item label="습도">{{ city.humidity }}%</el-descriptions-item>
+        <el-descriptions-item label="바람">{{ city.wind }} m/s</el-descriptions-item>
+      </el-descriptions>
+    </el-card>
+    <el-empty v-else description="해당 도시 정보를 찾을 수 없습니다." />
 
-    <div class="extra">
-      <h3>도시 소개 (Wikipedia)</h3>
-      <p v-if="isWikiLoading">설명을 불러오는 중입니다...</p>
-      <p v-else-if="wikiError" class="extra-error">{{ wikiError }}</p>
+    <el-card class="panel">
+      <template #header>도시 소개 (Wikipedia)</template>
+      <el-skeleton v-if="isWikiLoading" :rows="3" animated />
+      <el-alert v-else-if="wikiError" :title="wikiError" type="error" :closable="false" />
       <p v-else-if="wikiExtract">{{ wikiExtract }}</p>
-    </div>
+    </el-card>
 
-    <div class="extra">
-      <h3>5일 예보 중 앞으로 24시간</h3>
-      <p v-if="isForecastLoading">예보를 불러오는 중입니다...</p>
-      <p v-else-if="forecastError" class="extra-error">{{ forecastError }}</p>
-      <ul v-else-if="forecastList.length" class="forecast">
-        <li v-for="item in forecastList" :key="item.dt">
-          <span>{{ item.dt_txt }}</span>
-          <span>{{ convertTemp(item.main.temp) }}{{ configStore.unitSymbol }}</span>
-          <span>{{ item.weather[0].description }}</span>
-        </li>
-      </ul>
-    </div>
+    <el-card class="panel">
+      <template #header>5일 예보 중 앞으로 24시간</template>
+      <el-skeleton v-if="isForecastLoading" :rows="4" animated />
+      <el-alert
+        v-else-if="forecastError"
+        :title="forecastError"
+        type="error"
+        :closable="false"
+      />
+      <el-timeline v-else-if="forecastList.length">
+        <el-timeline-item
+          v-for="item in forecastList"
+          :key="item.dt"
+          :timestamp="item.dt_txt"
+        >
+          {{ convertTemp(item.main.temp) }}{{ configStore.unitSymbol }}
+          · {{ item.weather[0].description }}
+        </el-timeline-item>
+      </el-timeline>
+    </el-card>
 
-    <button type="button" @click="goHome">대시보드로 돌아가기</button>
+    <el-button type="primary" @click="goHome">대시보드로 돌아가기</el-button>
   </section>
 </template>
 
@@ -152,43 +166,11 @@ const displayTemp = computed(() => {
   padding: 20px 24px 28px;
 }
 
-.detail h2,
-.detail h3,
-.detail p {
-  margin: 0 0 8px;
+.panel {
+  margin: 16px 0;
 }
 
-.name {
-  font-size: 22px;
-  font-weight: 700;
-}
-
-.extra {
-  margin-top: 16px;
-  padding-top: 12px;
-  border-top: 1px solid #eee;
-}
-
-.extra-error {
-  color: #c62828;
-}
-
-.forecast {
+.panel p {
   margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.forecast li {
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 6px;
-  font-size: 13px;
-}
-
-button {
-  margin-top: 12px;
-  padding: 8px 12px;
 }
 </style>
