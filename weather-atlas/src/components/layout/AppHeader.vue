@@ -1,10 +1,9 @@
 <script setup>
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import BrandMark from './BrandMark.vue'
 import { requestBrushIntro } from '../../composables/brushIntroGate.js'
 
 const route = useRoute()
-const router = useRouter()
 
 const links = [
   { to: '/', label: '지도', match: (path) => path === '/' },
@@ -14,11 +13,7 @@ const links = [
 
 const onBrandClick = (event) => {
   requestBrushIntro()
-  if (route.path === '/') {
-    event.preventDefault()
-    return
-  }
-  router.push('/')
+  if (route.path === '/') event.preventDefault()
 }
 </script>
 
