@@ -1,7 +1,6 @@
 # skala-vue
 
 SKALA Full-Stack Engineering — Vue.js 실습 저장소.
-따라 치다 같은 파일을 덮어써서 Day 1~3을 폴더로 나눠 두었습니다.
 Code Challenge(지시자, Composition API, 컴포넌트, Element Plus)와 Hands on 날씨 Mockup / Composition / Component / Router / Pinia / Axios까지 넣었습니다.
 날씨 데이터는 서울, 수원, 부산에 안성을 더한 4개 도시입니다.
 
@@ -10,7 +9,6 @@ Code Challenge(지시자, Composition API, 컴포넌트, Element Plus)와 Hands 
 폴더마다 Vite 프로젝트가 따로 있습니다.
 
 ```bash
-cd day1   # 또는 day2, day3
 npm install
 npm run dev
 ```
@@ -18,7 +16,7 @@ npm run dev
 - Node 22.18+ / 24.12+ (`package.json` engines 기준)
 - 빌드: `npm run build` · 미리보기: `npm run preview`
 
-day3에 Vue Router, Pinia, Axios가 들어 있습니다. `/` 대시보드, `/weather/:cityId` 상세, `/about` 소개, `/stats` 통계, 없는 주소는 404입니다.
+Vue Router, Pinia, Axios가 들어 있습니다. `/` 대시보드, `/weather/:cityId` 상세, `/about` 소개, `/stats` 통계, 없는 주소는 404입니다.
 실시간 날씨는 `.env`의 `VITE_OPENWEATHER_KEY`가 있어야 하고, 예시는 `day3/.env.example`입니다.
 
 ## 폴더 구조
@@ -124,7 +122,7 @@ Hands-on은 Vue의 주요 기능을 하나씩 실제 날씨 대시보드에 적�
 기본 문법부터 컴포넌트, Router, Pinia, Axios, UI Library까지 단계적으로 확장하는 실습입니다.
 
 
-### 01 날씨 Mockup — `day2/src/views/WeatherHomeView.vue`
+### 01 날씨 Mockup 
 
 | 구분 | 내용 |
 | ---- | ---- |
@@ -150,7 +148,7 @@ Hands-on은 Vue의 주요 기능을 하나씩 실제 날씨 대시보드에 적�
 버튼을 클릭했을 때 카드 클릭 이벤트까지 함께 발생하지 않도록 처리합니다.
 
 
-### 02 날씨 컴포지션 — `day2/src/views/WeatherHomeView.vue`
+### 02 날씨 컴포지션
 
 | 구분 | 내용 |
 | ---- | ---- |
@@ -181,7 +179,7 @@ Hands-on은 Vue의 주요 기능을 하나씩 실제 날씨 대시보드에 적�
 현재 몇 개의 도시가 검색되었는지 화면에 표시합니다.
 
 
-### 03 날씨 컴포넌트 — `day2/src/components/`
+### 03 날씨 컴포넌트 
 
 | 구분 | 내용 |
 | ---- | ---- |
@@ -217,7 +215,7 @@ Hands-on은 Vue의 주요 기능을 하나씩 실제 날씨 대시보드에 적�
 각 컴포넌트의 스타일에는 `style scoped`를 적용하여
 한 컴포넌트의 스타일이 다른 컴포넌트에 영향을 주지 않도록 구성합니다.
 
-### 04 Router 활용 — `day3/`
+### 04 Router 활용
 
 | 구분 | 내용 |
 | ---- | ---- |
@@ -255,7 +253,7 @@ Vue Router를 이용해 여러 페이지로 확장합니다.
 평균 기온, 가장 더운 도시, 가장 선선한 도시 등의 간단한 통계를 보여줍니다.
 
 
-### 05 Store 적용 — `day3/src/stores/configStore.js`
+### 05 Store 적용 
 
 | 구분 | 내용 |
 | ---- | ---- |
@@ -281,7 +279,7 @@ Store에서는 현재 선택된 단위와 단위 기호를 관리하고,
 
 
 
-### 06 데이터 연동 — `day3/`
+### 06 데이터 연동 
 
 | 구분 | 내용 |
 | ---- | ---- |
@@ -323,7 +321,7 @@ API 요청 과정에서는 최소한 다음 상태를 고려합니다.
 
 
 
-### 07 Element Plus — `day3/`
+### 07 Element Plus 
 
 | 구분 | 내용 |
 | ---- | ---- |
