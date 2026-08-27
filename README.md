@@ -27,12 +27,15 @@ day3에 Vue Router, Pinia, Axios가 들어 있습니다. `/` 대시보드, `/wea
 day1/                                # Code Challenge
 ├── src/main.js                      # Pinia, Element Plus
 ├── src/App.vue                      # 지시자 ~ 슬롯, Pinia/Axios, Element Plus 카드 3개
+├── counter.js                       # Pinia 카운터 스토어
 └── src/components/
     ├── LifeCycleDemo.vue
     ├── PropsEmitsChild.vue
     ├── SlotDefaultChild.vue
     ├── NamedSlot.vue
-    └── ScoppedSlot.vue              # 파일명 오타 그대로
+    ├── ScoppedSlot.vue              # 파일명 오타 그대로
+    ├── StoreCounter.vue
+    └── AxiosWeather.vue             # 키는 코드에 없음
 
 day2/                                # Hands on 날씨 1~3
 ├── src/App.vue                      # 상태 소유 (검색, 필터, watch)
@@ -88,10 +91,16 @@ day3/                                # Hands on Router / Pinia / Axios
 
 | 구분 | 내용 |
 | ---- | ---- |
-| 요구사항 | Element Plus 전역 등록. 회원가입(`el-input`, `el-switch`, `ElMessage`). 수량·별점(`el-input-number`, `el-rate`). 삭제 확인·진행률(`ElMessageBox`, `el-progress`) |
+| 요구사항 | `element-plus` 설치 후 `main.js`에 전역 등록. 실습1 회원가입 Form. 실습2 수량·별점. 실습3 삭제 Confirm과 Progress |
 | 튜닝 | 새 `.vue`는 안 만들고 `App.vue` 맨 아래 `.column`에 붙임. day1에 라우터가 없어 PDF `main.js`의 router는 빼 둠 |
 
-1번 헤더는 회원가입, 함수명은 `handleResgister`입니다. 2번 헤더는 상품 수량 및 평점 선택이고 `el-rate`에 `show-score`를 넣었습니다. 3번 헤더는 파일 작업입니다. 날씨 Hands on UI Library는 아직 없습니다.
+실습 1은 `el-card`, `el-input`, `el-switch`, `ElMessage`입니다. 헤더는 회원가입, 함수명은 `handleResgister`입니다.
+
+실습 2는 `el-input-number`(`:max="10"`)와 `el-rate`입니다. `show-score`로 `{value} 점`을 붙였고, 헤더는 상품 수량 및 평점 선택입니다.
+
+실습 3은 `ElMessageBox.confirm`과 `el-progress`입니다. 헤더는 파일 작업입니다.
+
+날씨 Hands on UI Library는 아직 없습니다. day1 Axios 예제의 OpenWeather 키는 저장소에 넣지 않았습니다.
 
 ### 01 날씨 Mockup — `day2/src/App.vue`
 

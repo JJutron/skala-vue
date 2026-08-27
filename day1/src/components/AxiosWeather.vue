@@ -7,7 +7,7 @@ const isLoading = ref(false)
 
 const handleFetchWeather = async () => {
   isLoading.value = true
-  const API_KEY = 'd1d9e5a00fc28cfaa676e74e72995846'
+  const API_KEY = import.meta.env.VITE_OPENWEATHER_KEY || ''
   const URL = `https://api.openweathermap.org/data/2.5/weather?lat=35.158582&lon=126.804975&appid=${API_KEY}&units=metric&lang=kr`
   try {
     const response = await axios.get(URL)
